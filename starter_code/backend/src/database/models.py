@@ -53,6 +53,7 @@ class Drink(db.Model):
             'id': self.id,
             'title': self.title,
             'recipe': short_recipe
+            #'recipe': json.loads(self.recipe)
         }
 
     '''
