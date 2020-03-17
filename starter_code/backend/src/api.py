@@ -32,14 +32,15 @@ CORS(app)
 @app.route('/drinks')
 def get_drinks():
     try:
+        print("entering the code")
         drinks = Drink.query.all()
-
+        #print(str(drinks))
         return jsonify({
             'success': True,
             'drinks': [drink.short() for drink in drinks]
         })
     except:
-        print(drinks)
+        #print(drinks)
         abort(404)
 
 
@@ -79,8 +80,8 @@ def get_drink_detail(jwt):
 
 
 @app.route("/drinks", methods=['POST'])
-#@requires_auth('post:drinks')
-def add_drink():
+@requires_auth('post:drinks')
+def add_drink(jwt):
 
     body = request.get_json()
     print(body)
@@ -94,7 +95,7 @@ def add_drink():
     try:
         print(recipe)
         drink = Drink(title=title, recipe=json.dumps(str(recipe)))
-        print(recipe)
+        print(str(recipe))
         print("recipe printed")
         drink.insert()
 
@@ -160,8 +161,8 @@ def update_drink(jwt, id):
         or appropriate status code indicating reason for failure
 '''
 @app.route("/drinks/<id>", methods=['DELETE'])
-#@requires_auth('delete:drinks')
-def delete_drink(id):
+@requires_auth('delete:drinks')
+def delete_drink(jwt,id):
 
     drink = Drink.query.get(id)
 
